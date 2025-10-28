@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Донат - YellowTime</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #ffcc00;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .tg-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(to right, #0088cc, #005999);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .tg-btn:hover {
+            background: linear-gradient(to right, #0077b3, #004477);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: white;
+            margin: 40px 0 30px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .donation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .currency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .donation-card, .currency-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .donation-card:hover, .currency-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .rank-name {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .currency-name {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .price {
+            font-size: 2em;
+            color: #e74c3c;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .description {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            text-align: left;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .command {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 15px;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: linear-gradient(to right, #2980b9, #1c2833);
+            transform: scale(1.1);
+        }
+
+        .quantity-display {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .currency-info {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: auto;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to right, #2980b9, #1c2833);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .rules-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .rules-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #e74c3c;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .rules-list {
+            columns: 2;
+            column-gap: 30px;
+        }
+
+        .rule-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .rule-number {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-right: 8px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .donation-grid, .currency-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rules-list {
+                columns: 1;
+            }
+            
+            .quantity-controls {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>YellowTime</h1>
+            <p class="subtitle">Поддержите наш сервер и получите эксклюзивные привилегии!</p>
+            <a href="t.me/YellowCraft_Official" class="tg-btn" target="_blank">Наш Telegram: t.me/YellowCraft_Official</a>
+            <a href="#items" class="tg-btn">🎮 Игровая валюта</a>
+            <a href="#rules" class="tg-btn">📜 Правила сервера</a>
+        </header>
+
+        <!-- Раздел игровой валюты -->
+        <h2 class="section-title" id="items">🎮 ИГРОВАЯ ВАЛЮТА</h2>
+        <div class="currency-grid">
+            <!-- Токены -->
+            <div class="currency-card">
+                <div class="currency-name">🪙 Токены</div>
+                <div class="currency-info">Минимум: 1,000 токенов</div>
+                <div class="currency-info">Максимум: 500,000 токенов</div>
+                
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeTokens(-1000)">-</button>
+                    <div class="quantity-display" id="tokensDisplay">1,000</div>
+                    <button class="quantity-btn" onclick="changeTokens(1000)">+</button>
+                </div>
+                
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeTokens(-10000)">--</button>
+                    <div class="currency-info">Шаг: 1,000</div>
+                    <button class="quantity-btn" onclick="changeTokens(10000)">++</button>
+                </div>
+                
+                <div class="price" id="tokensPrice">5.00 ₽</div>
+                <a href="#" class="btn" onclick="buyCurrency('tokens')">Купить токены</a>
+            </div>
+
+            <!-- Монеты -->
+            <div class="currency-card">
+                <div class="currency-name">💰 Монеты</div>
+                <div class="currency-info">1,000,000 монет = 5 рублей</div>
+                <div class="currency-info">Минимум: 1,000,000 монет</div>
+                
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeCoins(-1000000)">-</button>
+                    <div class="quantity-display" id="coinsDisplay">1,000,000</div>
+                    <button class="quantity-btn" onclick="changeCoins(1000000)">+</button>
+                </div>
+                
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="changeCoins(-5000000)">--</button>
+                    <div class="currency-info">Шаг: 1,000,000</div>
+                    <button class="quantity-btn" onclick="changeCoins(5000000)">++</button>
+                </div>
+                
+                <div class="price" id="coinsPrice">5.00 ₽</div>
+                <a href="#" class="btn" onclick="buyCurrency('coins')">Купить монеты</a>
+            </div>
+        </div>
+
+        <!-- Раздел привилегий -->
+        <h2 class="section-title">💎 ПРИВИЛЕГИИ</h2>
+        <main class="donation-grid">
+            <!-- Все привилегии остаются как были -->
+            <!-- Донат Барон -->
+            <div class="donation-card">
+                <div class="rank-name">Барон</div>
+                <div class="price">2.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Барон] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Барон ⇨ Получить набор Барона<br>
+                    › /salary ⇨ Получить зарплату<br>
+                    › /crawl ⇨ Сменить позу: красться<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 2<br>
+                    Регионов (Гриф): 2 по 40,000 блоков<br>
+                    Регионов (Анка): 3 блоков<br>
+                    Слотов на Аукционе: 6<br>
+                    Задержка телепорта: 7 сек
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Страж -->
+            <div class="donation-card">
+                <div class="rank-name">Страж</div>
+                <div class="price">5.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Страж] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Страж ⇨ Получить набор Стража<br>
+                    › /suicide ⇨ Покончить жизнь самоубийством<br>
+                    › /dchat ⇨ Воспользоваться Донат-Чатом<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 2<br>
+                    Регионов (Гриф): 2 по 45,000 блоков<br>
+                    Регионов (Анка): 3 блоков<br>
+                    Слотов на Аукционе: 7<br>
+                    Задержка телепорта: 6 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Остальные привилегии... -->
+            <!-- Донат Герой -->
+            <div class="donation-card">
+                <div class="rank-name">Герой</div>
+                <div class="price">8.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Герой] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Герой ⇨ Получить набор Героя<br>
+                    › /top ⇨ Телепортация вверх<br>
+                    › /hat ⇨ Надеть блок на голову<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 2<br>
+                    Регионов (Гриф): 2 по 50,000 блоков<br>
+                    Регионов (Анка): 4 блоков<br>
+                    Слотов на Аукционе: 8<br>
+                    Задержка телепорта: 6 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Аспид -->
+            <div class="donation-card">
+                <div class="rank-name">Аспид</div>
+                <div class="price">20.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Аспид] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Аспид ⇨ Получить набор Аспида<br>
+                    › /clear ⇨ Очистить инвентарь<br>
+                    › /feed ⇨ Восстановить голод<br>
+                    › /heal ⇨ Восстановить здоровье<br>
+                    › /me ⇨ Написать в чат Реакции<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 2<br>
+                    Регионов (Гриф): 2 по 60,000 блоков<br>
+                    Регионов (Анка): 4 блоков<br>
+                    Слотов на Аукционе: 9<br>
+                    Задержка телепорта: 6 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Сквид -->
+            <div class="donation-card">
+                <div class="rank-name">Сквид</div>
+                <div class="price">35.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Сквид] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Сквид ⇨ Получить набор Сквида<br>
+                    › /back ⇨ Вернуться на место смерти<br>
+                    › /ec ⇨ Открыть Эндер Сундук<br>
+                    › /wbench ⇨ Открыть портативный Верстак<br>
+                    › /ad ⇨ Написать в чат Рекламы<br>
+                    › /buy ⇨ Написать в чат Покупки<br>
+                    › /sell ⇨ Написать в чат Продажи<br>
+                    › /name ⇨ Изменить название предмета<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 3<br>
+                    Регионов (Гриф): 3 по 75,000 блоков<br>
+                    Регионов (Анка): 5 блоков<br>
+                    Слотов на Аукционе: 10<br>
+                    Задержка телепорта: 5 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Глава -->
+            <div class="donation-card">
+                <div class="rank-name">Глава</div>
+                <div class="price">55.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Глава] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Глава ⇨ Получить набор Главы<br>
+                    › /salary ⇨ Получить зарплату<br>
+                    › /bc ⇨ Написать в чат Объявления<br>
+                    › /ext ⇨ Потушить себя командой<br>
+                    › /am toggle ⇨ Отключить Авто-сообщения<br>
+                    › /msgtoggle ⇨ Отключить Личные сообщения<br>
+                    › /paytoggle ⇨ Отключить получение платежей<br>
+                    › /tptoggle ⇨ Отключить телепортации<br>
+                    › /feed Ник ⇨ Покормить игрока<br>
+                    › /heal Ник ⇨ Вылечить игрока<br>
+                    › /exp ⇨ Получить бесплатный опыт<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 3<br>
+                    Регионов (Гриф): 4 по 100,000 блоков<br>
+                    Регионов (Анка): 6 блоков<br>
+                    Слотов на Аукционе: 11<br>
+                    Задержка телепорта: 4 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Элита -->
+            <div class="donation-card">
+                <div class="rank-name">Элита</div>
+                <div class="price">85.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Элита] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Элита ⇨ Получить набор Элиты<br>
+                    › /time ⇨ Установить время<br>
+                    › /weather ⇨ Установить погоду<br>
+                    › /loom ⇨ Открыть Ткацкий станок<br>
+                    › /carttable ⇨ Открыть Стол картографа<br>
+                    › /msgtoggle ⇨ Отключить Личные сообщения<br>
+                    › /beezooka ⇨ Выстрельнуть пчелой<br>
+                    › /kittycannon ⇨ Выстрелить котом<br>
+                    › /firework ⇨ Настроить феерверк<br>
+                    › /name ⇨ Изменить назв. предмета цветным<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 3<br>
+                    Регионов (Гриф): 5 по 150,000 блоков<br>
+                    Регионов (Анка): 7 блоков<br>
+                    Слотов на Аукционе: 12<br>
+                    Задержка телепорта: 4 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Титан -->
+            <div class="donation-card">
+                <div class="rank-name">Титан</div>
+                <div class="price">115.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Титан] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Титан ⇨ Получить набор Титана<br>
+                    › /jump ⇨ Телепортация на блок взгляда<br>
+                    › /afk ⇨ Установить режим ''Афк''<br>
+                    › /setwarp ⇨ Установить точку варпа<br>
+                    › /delwarp ⇨ Удалить точку варпа<br>
+                    › /repair ⇨ Починить вещь в руке<br><br>
+                    <strong>Прочее:</strong><br>
+                    Не кикает за Афк<br>
+                    Доступно Точек домов: 4<br>
+                    Регионов (Гриф): 6 по 200,000 блоков<br>
+                    Регионов (Анка): 8 блоков<br>
+                    Слотов на Аукционе: 13<br>
+                    Задержка телепорта: 3 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Принц -->
+            <div class="donation-card">
+                <div class="rank-name">Принц</div>
+                <div class="price">165.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Принц] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Принц ⇨ Получить набор Принца<br>
+                    › /smithtable ⇨ Открыть стол Кузнеца<br>
+                    › /stonecutter ⇨ Открыть Камнерез<br>
+                    › /grindstone ⇨ Открыть Точило<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 5<br>
+                    Регионов (Гриф): 7 по 250,000 блоков<br>
+                    Регионов (Анка): 9 блоков<br>
+                    Слотов на Аукционе: 14<br>
+                    Задержка телепорта: 3 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Князь -->
+            <div class="donation-card">
+                <div class="rank-name">Князь</div>
+                <div class="price">199.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Князь] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Князь ⇨ Получить набор Князя<br>
+                    › /fly ⇨ Включить режим полёта<br>
+                    › /amute ⇨ Выдать МУТ игроку<br>
+                    › /enchant ⇨ Зачаровать предмет в руке<br>
+                    › /anvil ⇨ Открыть портативную Наковальню<br>
+                    › /speed ⇨ Установить скорость передвижения<br>
+                    › /salary ⇨ Получить зарплату<br>
+                    › /exp ⇨ Получить бесплатный опыт<br><br>
+                    <strong>Прочее:</strong><br>
+                    Доступно Точек домов: 7<br>
+                    Регионов (Гриф): 10 по 350,000 блоков<br>
+                    Регионов (Анка): 10 блоков<br>
+                    Слотов на Аукционе: 15<br>
+                    Задержка телепорта: 2 сек<br>
+                    ✔ Возможности привилегии ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+
+            <!-- Донат Герцог -->
+            <div class="donation-card">
+                <div class="rank-name">Герцог</div>
+                <div class="price">329.00 ₽</div>
+                <div class="description">
+                    <span class="command">⚕ Префикс в чате и табе: [Герцог] ВашНик</span><br><br>
+                    <strong>Команды:</strong><br>
+                    › /kit Крушитель ⇨ Получить набор Герцога<br>
+                    › /enchant ⇨ Зачаровать предмет в руке<br>
+                    › /anvil ⇨ Открыть портативную Наковальню<br>
+                    › /speed ⇨ Установить скорость передвижения<br>
+                    › /salary ⇨ Получить зарплату<br>
+                    › /exp ⇨ Получить бесплатный опыт<br><br>
+                    <strong>Прочее:</strong><br>
+                    Вход на заполненный сервер<br>
+                    Нет задержки телепорта<br>
+                    Доступно Точек домов: 10<br>
+                    Регионов (Гриф): 15 по 500,000 блоков<br>
+                    Регионов (Анка): 15 блоков<br>
+                    Слотов на Аукционе: 15<br>
+                    ✔ Возможности всех привилегий ниже
+                </div>
+                <a href="#" class="btn">Купить</a>
+            </div>
+        </main>
+
+        <section class="rules-section" id="rules">
+            <h2 class="rules-title">❗️ПРАВИЛА СЕРВЕРА❗️</h2>
+            <div class="rules-list">
+                <!-- Правила остаются такими же -->
+                <div class="rule-item"><span class="rule-number">1.0</span>Читерство карается баном на 30 дней</div>
+                <div class="rule-item"><span class="rule-number">1.1</span>Оскорбление администрации, спам карается мутом на 2 часа</div>
+                <div class="rule-item"><span class="rule-number">1.2</span>Порнография карается баном на 90 дней</div>
+                <div class="rule-item"><span class="rule-number">1.3</span>Дюп карается баном на 7 дней</div>
+                <div class="rule-item"><span class="rule-number">1.4</span>Если вы хелпер, модер, куратор, админ или ище кто то кроме донатеров вы должны выполнять обязанности, карается баном либо снятием</div>
+                <div class="rule-item"><span class="rule-number">1.5</span>Если у вас есть права на бан по типу допустим вы модер и если просто так банить будет снятие либо бан на 90 дней</div>
+                <div class="rule-item"><span class="rule-number">1.6</span>Пересылание на другой сервер дискорд или майнкрафт карается баном на 90дней</div>
+                <div class="rule-item"><span class="rule-number">1.7</span>Миникарта бан на 2 дня</div>
+                <div class="rule-item"><span class="rule-number">1.8</span>Оскорбление родини карается мутом на 1 день</div>
+                <div class="rule-item"><span class="rule-number">1.9</span>Кик за просто так бан на 10ч</div>
+                <div class="rule-item"><span class="rule-number">2.0</span>Мод на хп или мод на виденье инвизок карается баном на 20д</div>
+                <div class="rule-item"><span class="rule-number">2.1</span>Запрещено пользоваться всем, что упрощает процесс игры бан на 20д</div>
+                <div class="rule-item"><span class="rule-number">2.2</span>Запрещено выдавать себя за Администрацию, устанавливать ники похожие на Администрацию или их префиксы бан на 50д</div>
+                <div class="rule-item"><span class="rule-number">2.3</span>Запрещено использование/скрытие багов/недоработок сервера бан на 50д</div>
+                <div class="rule-item"><span class="rule-number">2.4</span>Запрещено строительство половых органов, нацистских символик</div>
+                <div class="rule-item"><span class="rule-number">2.5</span>Запрещено как-либо обходить блокировку чата</div>
+                <div class="rule-item"><span class="rule-number">2.6</span>Запрещено вызывать игроков на проверку читов если вы не являетесь администратором</div>
+                <div class="rule-item"><span class="rule-number">2.7</span>Запрещено продавать ресурсы или услуги ВНЕ серверного чата, например через дискорд</div>
+                <div class="rule-item"><span class="rule-number">2.8</span>Самопризнавание в нарушении правил проекта является поводом для бана на 10д</div>
+                <div class="rule-item"><span class="rule-number">2.9</span>Обход бана карается баном по айпи на 60д</div>
+                <div class="rule-item"><span class="rule-number">3.0</span>Запрещено попрошайничать у администрации проекта. Карается мутом на 1 час, если же администратор согласится выдать ресурсы/привелегию/донат валюту, снятие/понижение</div>
+                <div class="rule-item"><span class="rule-number">3.1</span>Угрозы игрокам/администрации | Бан на 3д</div>
+                <div class="rule-item"><span class="rule-number">3.2</span>Варп с упоминанием политики | Бан на 8 дней + Удаление варп (длялят тех кто донатер и есть права ставить варп</div>
+                <div class="rule-item"><span class="rule-number">3.3</span>Оскорбление высшей администрации карается понижением или снятием но вышей администрации нельзя пользоваться этим чтобы оскать ниже себя администрацию</div>
+                <div class="rule-item"><span class="rule-number">3.4</span>Капс мут на 30 минут</div>
+                <div class="rule-item"><span class="rule-number">3.5</span>Провоцирование администрации карается баном на 10 дней</div>
+                <div class="rule-item"><span class="rule-number">3.6</span>Каждый игрок должен быть готов к новым правилам</div>
+                <div class="rule-item"><span class="rule-number">3.7</span>запрещено оскорблять проект (например: сервер сгинил или сервер говно) бан на 7 дней</div>
+                <div class="rule-item"><span class="rule-number">3.8</span>Запрещено рекламировать читы и другое ПО. Бан на 90 дней</div>
+                <div class="rule-item"><span class="rule-number">3.9</span>Запрещено ставить ники в которых есть; оскорбление, оскорбление родини, маты, реклама Ютуб канала, реклама запрещённого ПО. Бан на 30 дней</div>
+                <div class="rule-item"><span class="rule-number">4.0</span>Нагрузка сервера бан на 90 дней</div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 YellowTime Minecraft Server. Все права защищены.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Переменные для хранения количества
+        let tokensAmount = 1000;
+        let coinsAmount = 1000000;
+
+        // Функции для изменения количества токенов
+        function changeTokens(amount) {
+            tokensAmount += amount;
+            
+            // Ограничения для токенов
+            if (tokensAmount < 1000) tokensAmount = 1000;
+            if (tokensAmount > 500000) tokensAmount = 500000;
+            
+            updateTokensDisplay();
+        }
+
+        function updateTokensDisplay() {
+            const tokensDisplay = document.getElementById('tokensDisplay');
+            const tokensPrice = document.getElementById('tokensPrice');
+            
+            // Форматирование числа с разделителями
+            tokensDisplay.textContent = tokensAmount.toLocaleString('ru-RU');
+            
+            // Расчет цены (5 рублей за 1000 токенов)
+            const price = (tokensAmount / 1000) * 5;
+            tokensPrice.textContent = price.toFixed(2) + ' ₽';
+        }
+
+        // Функции для изменения количества монет
+        function changeCoins(amount) {
+            coinsAmount += amount;
+            
+            // Ограничения для монет (минимум 1 млн)
+            if (coinsAmount < 1000000) coinsAmount = 1000000;
+            
+            updateCoinsDisplay();
+        }
+
+        function updateCoinsDisplay() {
+            const coinsDisplay = document.getElementById('coinsDisplay');
+            const coinsPrice = document.getElementById('coinsPrice');
+            
+            // Форматирование числа с разделителями
+            coinsDisplay.textContent = coinsAmount.toLocaleString('ru-RU');
+            
+            // Расчет цены (5 рублей за 1 млн монет)
+            const price = (coinsAmount / 1000000) * 5;
+            coinsPrice.textContent = price.toFixed(2) + ' ₽';
+        }
+
+        // Функция покупки валюты
+        function buyCurrency(type) {
+            let amount, price, currencyName;
+            
+            if (type === 'tokens') {
+                amount = tokensAmount;
+                price = (tokensAmount / 1000) * 5;
+                currencyName = 'токенов';
+            } else {
+                amount = coinsAmount;
+                price = (coinsAmount / 1000000) * 5;
+                currencyName = 'монет';
+            }
+            
+            alert(`Для покупки ${amount.toLocaleString('ru-RU')} ${currencyName} за ${price.toFixed(2)}₽ напишите администратору @FuntimeUnsoft в Telegram`);
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTokensDisplay();
+            updateCoinsDisplay();
+            
+            const cards = document.querySelectorAll('.donation-card');
+            const rules = document.querySelectorAll('.rule-item');
+            
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+            
+            rules.forEach((rule, index) => {
+                rule.style.opacity = '0';
+                rule.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    rule.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    rule.style.opacity = '1';
+                    rule.style.transform = 'translateX(0)';
+                }, 50 * index);
+            });
+            
+            // Обработчик для кнопок покупки привилегий
+            document.querySelectorAll('.donation-card .btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = this.closest('.donation-card');
+                    const rank = card.querySelector('.rank-name').textContent;
+                    const price = card.querySelector('.price').textContent;
+                    
+                    alert(`Для покупки привилегии "${rank}" за ${price} напишите администратору @FuntimeUnsoft в Telegram`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
